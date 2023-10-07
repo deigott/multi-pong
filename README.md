@@ -1,2 +1,2 @@
-# multi-pong
-A multiplayer ping-pong web application.
+# inkfury
+ Inkfury is an open-source ping-pong game with best user experience.
