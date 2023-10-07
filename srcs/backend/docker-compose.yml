@@ -1,0 +1,41 @@
+version: "3.3"
+
+services:
+  ### Running the back-end server
+  backend:
+    build: ./backend
+    depends_on:
+      - post
+    ports:
+      - "9000:9000"
+    # volumes:
+    #   - "app/node_modules"
+    #   - "./backend:/app"
+    
+  ### Running the front-end server
+  frontend:
+    build: ./frontend
+    tty: true
+    ports:
+      - "8081:8081"
+    # volumes:
+    #   - "/app/node_modules"
+    #   - "./frontend:/app"
+
+  post:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - PGPASSWORD=admin
+    ports:
+      - "5432:5432"
+
+networks:
+  default:
+    external:
+      name: inkfury_default
+  # ### Running the database server
+  # db:
+# docker run --name $SERVER -e POSTGRES_PASSWORD=$PW \ -e PGPASSWORD=$PW \ -p 5432:5432 \ -d postgres
