@@ -1,0 +1,42 @@
+version: "3.3"
+
+services:
+  ### Running the back-end server
+  backend:
+    build: ./srcs/backend
+    container_name: backend
+    restart: always
+    depends_on:
+      - post
+    ports:
+      - "9000:9000"
+      - "4000:4000"
+    volumes:
+      - app-volume:/data
+    
+  ### Running the front-end server
+  frontend:
+    build: ./srcs/frontend
+    container_name: frontend
+    tty: true
+    ports:
+      - "8081:8081"
+    volumes:
+      - app-volume:/app/public/assets
+
+  post:
+    image: postgres:latest
+    container_name: post
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - PGPASSWORD=admin
+    ports:
+      - "5432:5432"
+
+
+volumes:
+     app-volume:
+networks:
+  inkfury_network:
